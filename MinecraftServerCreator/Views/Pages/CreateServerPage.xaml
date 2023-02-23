@@ -1,0 +1,91 @@
+﻿<Page
+    x:Class="MinecraftServerCreator.Views.Pages.CreateServerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:MinecraftServerCreator.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MinecraftServerCreator.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="CreateServerPage"
+    d:DataContext="{d:DesignInstance local:CreateServerPage,
+                                     IsDesignTimeCreatable=False}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="boolToVisibility" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="7*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*" />
+                <ColumnDefinition Width="4*" />
+            </Grid.ColumnDefinitions>
+
+            <ComboBox
+                Grid.Row="0"
+                ItemsSource="{Binding ViewModel.ServerTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=OneWay}"
+                SelectedItem="{Binding ViewModel.SelectedServerType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}}" />
+            <ComboBox
+                Grid.Row="1"
+                ItemsSource="{Binding ViewModel.MinecraftVersionGroups, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=OneWay}"
+                SelectedItem="{Binding ViewModel.SelectedServerVersionGroup, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}}" />
+            <ComboBox
+                Grid.Row="2"
+                ItemsSource="{Binding ViewModel.MinecraftVersions, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=OneWay}"
+                SelectedItem="{Binding ViewModel.SelectedServerVersion, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}}" />
+
+            <ui:Button
+                Grid.Row="3"
+                Command="{Binding ViewModel.ServerCreationCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=OneWay}"
+                Content="Create"
+                Icon="Fluent24"
+                IsEnabled="{Binding ViewModel.IsCreated, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=OneWay}" />
+
+            <ui:ProgressRing
+                Grid.Row="3"
+                Grid.Column="1"
+                IsIndeterminate="True"
+                Visibility="{Binding ViewModel.IsCreated, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Converter={StaticResource boolToVisibility}}" />
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0" Text="{Binding ViewModel.InstanceDirectory, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=TwoWay}" />
+
+            <Button
+                Grid.Column="1"
+                Margin="5,0,0,0"
+                HorizontalAlignment="Stretch"
+                Command="{Binding ViewModel.ChooseDirectoryCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=OneWay}">
+                Server Dir
+            </Button>
+
+        </Grid>
+    </Grid>
+</Page>
