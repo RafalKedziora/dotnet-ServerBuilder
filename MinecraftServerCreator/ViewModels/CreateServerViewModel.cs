@@ -82,17 +82,21 @@ namespace MinecraftServerCreator.ViewModels
         partial void OnSelectedServerTypeChanging(string? value)
         {
             dynamic response = null;
-
-            if (value == "Paper")
+            
+            switch (value)
             {
-                _apiConsumer = _serviceProvider.GetService<IApiOperator<Domain.Paper.ProjectVersions>>();
-                response = _apiConsumer.GetMinecraftVersionsAsync().Result;
-            }
-
-            else if (value == "Purpur")
-            {
-                _apiConsumer = _serviceProvider.GetService<IApiOperator<Domain.Purpur.ProjectVersions>>();
-                response = _apiConsumer.GetMinecraftVersionsAsync().Result;
+                case "Paper":
+                    _apiConsumer = _serviceProvider.GetService<IApiOperator<Domain.Paper.ProjectVersions>>();
+                    response = _apiConsumer.GetMinecraftVersionsAsync().Result;
+                    break;
+                case "Purpur":
+                    _apiConsumer = _serviceProvider.GetService<IApiOperator<Domain.Purpur.ProjectVersions>>();
+                    response = _apiConsumer.GetMinecraftVersionsAsync().Result;
+                    break;
+                case "Pufferfish":
+                    _apiConsumer = _serviceProvider.GetService<IApiOperator<Domain.Pufferfish.ProjectVersions>>();
+                    response = _apiConsumer.GetMinecraftVersionsAsync().Result;
+                    break;
             }
 
             _selectedServerType = value;
@@ -124,7 +128,7 @@ namespace MinecraftServerCreator.ViewModels
 
             if (Directory.Exists(_instanceDirectory))
             {
-                await _apiConsumer.DownloadMinecraftServerInstance(ServerType.Paper.ToString(), _selectedServerVersionGroup, _selectedServerVersion, _instanceDirectory);
+                await _apiConsumer.DownloadMinecraftServerInstance(_selectedServerType, _selectedServerVersionGroup, _selectedServerVersion, _instanceDirectory);
             }
 
             IsCreated = true;

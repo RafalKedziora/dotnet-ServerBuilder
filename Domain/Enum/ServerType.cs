@@ -4,6 +4,6 @@
     {
         Paper,
         Purpur,
-        Forge
+        Pufferfish
     }
 }
