@@ -87,18 +87,20 @@ namespace MinecraftServerCreator.ViewModels
             {
                 case "Paper":
                     _apiConsumer = _serviceProvider.GetService<IApiOperator<Domain.Paper.ProjectVersions>>();
-                    response = _apiConsumer.GetMinecraftVersionsAsync().Result;
                     break;
                 case "Purpur":
                     _apiConsumer = _serviceProvider.GetService<IApiOperator<Domain.Purpur.ProjectVersions>>();
-                    response = _apiConsumer.GetMinecraftVersionsAsync().Result;
                     break;
                 case "Pufferfish":
                     _apiConsumer = _serviceProvider.GetService<IApiOperator<Domain.Pufferfish.ProjectVersions>>();
-                    response = _apiConsumer.GetMinecraftVersionsAsync().Result;
+                    break;
+                case "Fabric":
+                    _apiConsumer = _serviceProvider.GetService<IApiOperator<Domain.Fabric.ProjectVersions>>();
                     break;
             }
 
+            response = _apiConsumer.GetMinecraftVersionsAsync().Result;
+            
             _selectedServerType = value;
             _minecraftVersionGroupsReadable = new ObservableCollection<string>(response.VersionGroups);
             _minecraftVersionsReadable = new ObservableCollection<string>(response.Versions);

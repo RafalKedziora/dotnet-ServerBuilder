@@ -57,6 +57,7 @@ namespace MinecraftServerCreator
                 services.AddScoped<IApiOperator<Domain.Paper.ProjectVersions>, PaperApiConsumer>();
                 services.AddScoped<IApiOperator<Domain.Purpur.ProjectVersions>, PurpurApiConsumer>();
                 services.AddScoped<IApiOperator<Domain.Pufferfish.ProjectVersions>, PufferfishApiConsumer>();
+                services.AddScoped<IApiOperator<Domain.Fabric.ProjectVersions>, FabricApiConsumer>();
 
                 // Views and ViewModels
                 services.AddScoped<Views.Pages.CreateServerPage>();

@@ -4,6 +4,7 @@
     {
         Paper,
         Purpur,
-        Pufferfish
+        Pufferfish,
+        Fabric
     }
 }
