@@ -28,17 +28,20 @@
         <ui:NavigationCompact
             x:Name="RootNavigation"
             Grid.Column="0"
+            Margin="0,-2,0,0"
             Footer="{Binding ViewModel.NavigationFooter, Mode=TwoWay}"
             Frame="{Binding ElementName=RootFrame, Mode=OneWay}"
             Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" />
 
         <ui:TitleBar
             Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
-            Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Margin="42,0,0,0"
-            Icon="pack://application:,,,/Assets/applicationIcon-256.png">
+            Margin="42,-8,0,0"
+            Icon="pack://application:,,,/Assets/applicationIcon-256.png"
+            ShowClose="False"
+            ShowMaximize="False"
+            ShowMinimize="False">
             <ui:TitleBar.Tray>
                 <ui:NotifyIcon
                     FocusOnLeftClick="True"
@@ -51,6 +54,10 @@
                 </ui:NotifyIcon>
             </ui:TitleBar.Tray>
         </ui:TitleBar>
+        <ui:TitleBar
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="42,0,0,0" />
 
         <Grid Grid.Column="1">
             <Border

@@ -25,11 +25,13 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="8*" />
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Grid.Column="0">
+        <Grid
+            Grid.Column="0"
+            Margin="10,10,0,0"
+            VerticalAlignment="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
@@ -49,43 +51,83 @@
                 SelectedItem="{Binding ViewModel.SelectedServerType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}}" />
             <ComboBox
                 Grid.Row="1"
+                Margin="0,10,0,0"
                 ItemsSource="{Binding ViewModel.MinecraftVersionGroups, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=OneWay}"
                 SelectedItem="{Binding ViewModel.SelectedServerVersionGroup, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}}" />
             <ComboBox
                 Grid.Row="2"
+                Margin="0,10,0,0"
                 ItemsSource="{Binding ViewModel.MinecraftVersions, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=OneWay}"
                 SelectedItem="{Binding ViewModel.SelectedServerVersion, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}}" />
 
             <ui:Button
                 Grid.Row="3"
+                Margin="0,10,0,0"
                 Command="{Binding ViewModel.ServerCreationCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=OneWay}"
                 Content="Create"
                 Icon="Fluent24"
                 IsEnabled="{Binding ViewModel.IsCreated, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=OneWay}" />
-
-            <ui:ProgressRing
-                Grid.Row="3"
-                Grid.Column="1"
-                IsIndeterminate="True"
-                Visibility="{Binding ViewModel.IsCreated, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Converter={StaticResource boolToVisibility}}" />
         </Grid>
 
-        <Grid Grid.Row="0" Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="8*" />
-                <ColumnDefinition Width="2*" />
-            </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1" Margin="0,10,10,0">
 
-            <TextBox Grid.Column="0" Text="{Binding ViewModel.InstanceDirectory, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=TwoWay}" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="10*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
 
-            <Button
-                Grid.Column="1"
-                Margin="5,0,0,0"
-                HorizontalAlignment="Stretch"
-                Command="{Binding ViewModel.ChooseDirectoryCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=OneWay}">
-                Server Dir
-            </Button>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Text="{Binding ViewModel.InstanceDirectory, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=TwoWay}" />
 
+                <Button
+                    Grid.Column="1"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    Command="{Binding ViewModel.ChooseDirectoryCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=OneWay}">
+                    Server Dir
+                </Button>
+            </Grid>
+
+            <StackPanel
+                Grid.Row="1"
+                Margin="0,10,0,0"
+                Orientation="Vertical">
+                <RichTextBox Height="100" />
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <Label
+                            Padding="0,0,10,0"
+                            VerticalAlignment="Center"
+                            FontSize="15">
+                            Java Version
+                        </Label>
+                        <ComboBox ItemsSource="{Binding ViewModel.JavaPaths, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Mode=OneWay}" SelectedItem="{Binding ViewModel.SelectedJavaPath, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}}" />
+                    </StackPanel>
+                    <CheckBox>Use Aikar's flag</CheckBox>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="2"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Foreground="White"
+                    Visibility="{Binding ViewModel.IsCreated, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Converter={StaticResource boolToVisibility}}">
+                    Creating Server...
+                </TextBlock>
+                <ui:ProgressRing
+                    Margin="10,0,15,0"
+                    IsIndeterminate="True"
+                    Visibility="{Binding ViewModel.IsCreated, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CreateServerPage}, Converter={StaticResource boolToVisibility}}" />
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

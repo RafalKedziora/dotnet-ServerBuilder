@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Domain;
 using Microsoft.Win32;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace MinecraftServerCreator.ViewModels
 {
@@ -53,6 +54,11 @@ namespace MinecraftServerCreator.ViewModels
         private IList<string> _minecraftVersionGroupsReadable = new ObservableCollection<string>();
         private IList<string> _minecraftVersionsReadable = new ObservableCollection<string>();
 
+        [ObservableProperty]
+        private IList<string> _javaPaths = new ObservableCollection<string>();
+        [ObservableProperty]
+        private string _selectedJavaPath = new string(string.Empty);
+
         private readonly IServiceProvider _serviceProvider;
         private dynamic _apiConsumer;
 
@@ -74,7 +80,8 @@ namespace MinecraftServerCreator.ViewModels
 
         private void InitializeViewModel()
         {
-            _serverTypes = new ObservableCollection<string>(Enum.GetNames(typeof(ServerType)).ToList());
+            ServerTypes = new ObservableCollection<string>(Enum.GetNames(typeof(ServerType)).ToList());
+            JavaAutoDetect();
 
             _isInitialized = true;
         }
@@ -119,8 +126,25 @@ namespace MinecraftServerCreator.ViewModels
             if (value is not null)
             {
                 _selectedServerVersionGroup = value;
-                _minecraftVersions = _minecraftVersionsReadable.Where(x => x.Contains(_selectedServerVersionGroup)).ToList();
+                _minecraftVersions = _minecraftVersionsReadable.Where(x => x.Contains(SelectedServerVersionGroup)).ToList();
             }
+        }
+        
+        private void JavaAutoDetect()
+        {
+            var startInfo = new ProcessStartInfo("where", "java");
+
+            startInfo.CreateNoWindow = false;
+            startInfo.RedirectStandardOutput = true;
+
+            var process = new Process();
+            process.StartInfo = startInfo;
+
+            process.Start();
+
+            JavaPaths = process.StandardOutput.ReadToEnd().Split("\r\n").SkipLast(1).ToList();
+
+            process.WaitForExit();
         }
 
         [RelayCommand]
